@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, My Love!</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
+  <style>
+    /* === Background Gradient === */
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ffd6e0 0%, #ffe5b4 100%);
+      font-family: 'Quicksand', Arial, sans-serif;
+      color: #5a2d43;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* === Hero Section === */
+    .hero {
+      text-align: center;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.8rem;
+      color: #e75480;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #b85c8a;
+      margin: 0;
+    }
+
+    /* === Carousel Section === */
+    .carousel-container {
+      position: relative;
+      width: 98vw;
+      max-width: 650px;
+      margin: 0 auto 2rem auto;
+      overflow: hidden;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 24px rgba(231, 84, 128, 0.08);
+      background: #fff6fa;
+    }
+    .carousel {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(.77,0,.18,1);
+      width: 400%;
+    }
+    .carousel input[type="radio"] {
+      display: none;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      transition: opacity 0.6s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+    }
+    .carousel-slide img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 12px rgba(231, 84, 128, 0.10);
+      border: 3px solid #ffe5ec;
+    }
+    /* Carousel navigation arrows */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 214, 224, 0.8);
+      border: none;
+      border-radius: 50%;
+      width: 2.2rem;
+      height: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #e75480;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.2s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    /* Show only the correct arrows for each slide */
+    input#slide1:checked ~ .arrow1,
+    input#slide2:checked ~ .arrow2,
+    input#slide3:checked ~ .arrow3,
+    input#slide4:checked ~ .arrow4 {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .carousel-arrow.left {
+      left: 0.5rem;
+    }
+    .carousel-arrow.right {
+      right: 0.5rem;
+    }
+    /* Carousel dots */
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      margin: 0.7rem 0 0.5rem 0;
+      gap: 0.5rem;
+    }
+    .carousel-dot {
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 50%;
+      background: #ffd6e0;
+      border: 2px solid #e75480;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    input#slide1:checked ~ .carousel {
+      transform: translateX(0%);
+    }
+    input#slide2:checked ~ .carousel {
+      transform: translateX(-100%);
+    }
+    input#slide3:checked ~ .carousel {
+      transform: translateX(-200%);
+    }
+    input#slide4:checked ~ .carousel {
+      transform: translateX(-300%);
+    }
+    input#slide1:checked ~ .carousel-dots label[for="slide1"],
+    input#slide2:checked ~ .carousel-dots label[for="slide2"],
+    input#slide3:checked ~ .carousel-dots label[for="slide3"],
+    input#slide4:checked ~ .carousel-dots label[for="slide4"] {
+      background: #e75480;
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .carousel-container {
+        max-width: 98vw;
+      }
+      .carousel-slide img {
+        height: 220px;
+      }
+    }
+    @media (max-width: 600px) {
+      .carousel-container {
+        max-width: 99vw;
+      }
+      .carousel-slide img {
+        height: 140px;
+      }
+    }
+
+    /* === Scrollable Carousel (Flexible) === */
+    .scroll-carousel {
+      position: relative;
+      overflow: hidden;
+      width: 98vw;
+      max-width: 650px;
+      margin: 0 auto 2rem auto;
+      background: #fff6fa;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 24px rgba(231, 84, 128, 0.08);
+    }
+    .carousel-flex {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 1rem 2.5rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      align-items: center;
+      /* Center images vertically */
+    }
+    .carousel-flex::-webkit-scrollbar {
+      display: none;
+    }
+    .carousel-flex img {
+      flex: 0 0 auto;
+      max-width: 100%;
+      max-height: 350px;
+      object-fit: contain;
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 12px rgba(231, 84, 128, 0.10);
+      border: 3px solid #ffe5ec;
+      background: #fff;
+      transition: transform 0.3s;
+      margin: auto;
+      display: block;
+    }
+    .carousel-flex img:hover {
+      transform: scale(1.03);
+    }
+    @media (max-width: 900px) {
+      .carousel-flex img {
+        max-height: 220px;
+      }
+      .scroll-carousel {
+        max-width: 98vw;
+      }
+    }
+    @media (max-width: 600px) {
+      .carousel-flex img {
+        max-height: 140px;
+      }
+      .scroll-carousel {
+        max-width: 99vw;
+      }
+    }
+
+    /* === Message Section === */
+    .message-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 2rem 0 3rem 0;
+    }
+    .message-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.5rem;
+      color: #e75480;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+    .heart-message {
+      position: relative;
+      background: #ffd6e0;
+      color: #b85c8a;
+      padding: 2.5rem 1.5rem 1.5rem 1.5rem;
+      border-radius: 2rem 2rem 2rem 2rem;
+      max-width: 350px;
+      text-align: center;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 12px rgba(231, 84, 128, 0.10);
+      /* Heart shape using pseudo-elements */
+    }
+    .heart-message:before,
+    .heart-message:after {
+      content: "";
+      position: absolute;
+      top: 0.7rem;
+      width: 2.2rem;
+      height: 2.2rem;
+      background: #ffd6e0;
+      border-radius: 50%;
+    }
+    .heart-message:before {
+      left: 1.2rem;
+    }
+    .heart-message:after {
+      right: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- === Hero Section === -->
+  <section class="hero">
+    <h1>Happy Birthday, Basboosa!</h1>
+    <p>You make my world brighter every day 💖</p>
+  </section>
+
+  <!-- === Image Carousel (Flexible, Add Your Own Images) === -->
+  <div class="carousel-container scroll-carousel">
+    <div class="carousel-flex">
+      <!-- Add your images below. Replace src with your own file or URL. -->
+      <img src="images/pic1.jpeg" alt="Photo 1">
+      <img src="images/pic2.jpeg" alt="Photo 2">
+      <img src="images/pic3.jpeg" alt="Photo 3">
+      <img src="images/pic4.jpeg" alt="Photo 4">
+      <img src="images/pic5.jpeg" alt="Photo 5">
+      <img src="images/pic6.jpeg" alt="Photo 6">
+      <img src="images/pic7.jpeg" alt="Photo 7">
+      <!-- Example: <img src="images/yourphoto.jpg" alt="My Photo"> -->
+    </div>
+  </div>
+
+  <!-- === Message Section === -->
+  <section class="message-section">
+    <div class="message-title">A Little Message</div>
+    <div class="heart-message">
+      Every moment with you is a treasure. Thank you for filling my life with love, laughter, and endless joy. I hope your birthday is as wonderful as you are to me! 💕
+    </div>
+  </section>
+</body>
+</html> 
